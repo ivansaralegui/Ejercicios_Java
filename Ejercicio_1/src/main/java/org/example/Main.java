@@ -17,13 +17,17 @@ public class Main {
     public static void main(String[] args) throws IOException {
         System.out.println("- Lista de Personas Válidas -");
         leerLista(listarPersonas(RUTA));
-        System.out.println("****************\n");
+        System.out.println("****************");
+        System.out.println("Ejercicio A - Listar Por Edad");
         leerLista(filtroEdad(listarPersonas(RUTA)));
-        System.out.println("****************\n");
+        System.out.println("****************");
+        System.out.println("Ejercicio B - Listar Por Inicial de Nombre");
         leerLista(filtroNombre(listarPersonas(RUTA)));
-        System.out.println("****************\n");
+        System.out.println("****************");
+        System.out.println("Ejercicio C - Listar Por Ciudad (Madrid)");
         leerLista(filtroCiudadMadrid(listarPersonas(RUTA)));
-        System.out.println("****************\n");
+        System.out.println("****************");
+        System.out.println("Ejercicio D - Listar Por Ciudad (Barcelona)");
         leerLista(filtroCiudadBarcelona(listarPersonas(RUTA)));
 
     }
@@ -38,14 +42,14 @@ public class Main {
             String[] campos = (linea.split(":"));
             int comprobar = campos.length;
             if (comprobar == 3) {
-                if (campos[0] == null || campos[0] == "") {
+                if (campos[0] == null || campos[0].equals("")) {
                     linea = br.readLine();
                     continue;
-                } else if (campos[1] == null || campos[1] == "") {
+                } else if (campos[1] == null || campos[1].equals("")) {
                     campos[1] = "*";
                     p = new Persona(campos[0], campos[1], Integer.parseInt(campos[2]));
                     personas.add(p);
-                } else if (campos[2] == null || campos[2] == "") {
+                } else if (campos[2] == null || campos[2].equals("")) {
                     campos[2] = "0";
                     p = new Persona(campos[0], campos[1], Integer.parseInt(campos[2]));
                     personas.add(p);
