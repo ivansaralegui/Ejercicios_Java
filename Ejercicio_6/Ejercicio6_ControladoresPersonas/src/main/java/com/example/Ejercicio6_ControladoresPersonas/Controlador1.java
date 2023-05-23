@@ -10,7 +10,6 @@ public class Controlador1 {
 
     private Servicio servicio;
 
-    @Autowired
     public Controlador1(Servicio servicio) {
         this.servicio = servicio;
     }

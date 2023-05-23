@@ -16,7 +16,6 @@ public class Controlador3 {
     private Persona bean2;
     private Persona bean3;
 
-    @Autowired
     public Controlador3(@Qualifier("bean1") Persona bean1,
                        @Qualifier("bean2") Persona bean2,
                        @Qualifier("bean3") Persona bean3) {
