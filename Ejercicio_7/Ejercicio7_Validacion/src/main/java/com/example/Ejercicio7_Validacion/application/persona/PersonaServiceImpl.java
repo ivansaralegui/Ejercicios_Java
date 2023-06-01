@@ -1,13 +1,11 @@
-package com.example.Ejercicio7_Validacion.application;
+package com.example.Ejercicio7_Validacion.application.persona;
 
-import com.example.Ejercicio7_Validacion.classes.persona.Persona;
+import com.example.Ejercicio7_Validacion.classes.Persona;
 import com.example.Ejercicio7_Validacion.controllers.dto.personaDTO.PersonaInputDTO;
 import com.example.Ejercicio7_Validacion.controllers.dto.personaDTO.PersonaOutputDTO;
 import com.example.Ejercicio7_Validacion.repository.PersonaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +61,7 @@ public class PersonaServiceImpl implements PersonaService{
             Persona p = personaOptional.get();
             return p.parsePersonaOutputDTO(p);
         } else {
-            throw new Exception("No se ha encontrado el usuario con esa ID");
+            throw new Exception("No se ha encontrado la persona con esa ID");
         }
     }
 
@@ -76,7 +74,7 @@ public class PersonaServiceImpl implements PersonaService{
             }
         }
         if (persona == null) {
-            throw new Exception("No se ha encontrado el usuario con ese nombre");
+            throw new Exception("No se ha encontrado la persona con ese nombre");
         } else {
             return persona.parsePersonaOutputDTO(persona);
         }
@@ -89,7 +87,7 @@ public class PersonaServiceImpl implements PersonaService{
             Persona p = personaOptional.get();
             repository.delete(p);
         } else {
-            throw new Exception("No se ha encontrado el usuario con esa ID");
+            throw new Exception("No se ha encontrado la persona con esa ID");
         }
     }
 
@@ -111,7 +109,7 @@ public class PersonaServiceImpl implements PersonaService{
             repository.save(p);
             return p.parsePersonaOutputDTO(p);
         } else {
-            throw new Exception("No se ha encontrado usuario con ese ID");
+            throw new Exception("No se ha encontrado una persona con ese ID");
         }
     }
 }

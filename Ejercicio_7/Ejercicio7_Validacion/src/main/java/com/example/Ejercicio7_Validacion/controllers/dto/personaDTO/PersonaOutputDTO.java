@@ -1,6 +1,5 @@
 package com.example.Ejercicio7_Validacion.controllers.dto.personaDTO;
 
-import com.example.Ejercicio7_Validacion.classes.persona.Persona;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

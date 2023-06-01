@@ -1,4 +1,4 @@
-package com.example.Ejercicio7_Validacion.classes.persona;
+package com.example.Ejercicio7_Validacion.classes;
 
 import com.example.Ejercicio7_Validacion.controllers.dto.personaDTO.PersonaInputDTO;
 import com.example.Ejercicio7_Validacion.controllers.dto.personaDTO.PersonaOutputDTO;
@@ -70,5 +70,7 @@ public class Persona {
         poDTO.setTermination_date(persona.getTermination_date());
         return poDTO;
     }
+
+
 
 }
