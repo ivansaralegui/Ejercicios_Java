@@ -33,22 +33,22 @@ public class ControladorEstudiante {
     }
 
     @GetMapping
-    public List<EstudianteFullOutputDTO> getEstudiantes() throws Exception {
+    public List<EstudianteFullOutputDTO> getEstudiantes(){
         return es.getAllEstudiantes();
     }
 
     @DeleteMapping("{id}")
-    public void deleteEstudiantes(@PathVariable int id) throws Exception{
+    public void deleteEstudiantes(@PathVariable int id){
         es.deleteEstudianteById(id);
     }
 
     @PutMapping("{id}")
-    public EstudianteSimpleOutputDTO updateEstudiante(@PathVariable int id, @RequestBody EstudianteInputDTO estudiante) throws Exception {
+    public EstudianteSimpleOutputDTO updateEstudiante(@PathVariable int id, @RequestBody EstudianteInputDTO estudiante){
         return es.updateEstudiante(id, estudiante);
     }
 
     @PutMapping("add/{idEstudiante},{idAsignatura}")
-    public EstudianteFullOutputDTO addAsignatura(@PathVariable int idEstudiante, @PathVariable int idAsignatura) throws Exception {
+    public EstudianteFullOutputDTO addAsignatura(@PathVariable int idEstudiante, @PathVariable int idAsignatura){
        return es.addAsignatura(idEstudiante, idAsignatura);
     }
 

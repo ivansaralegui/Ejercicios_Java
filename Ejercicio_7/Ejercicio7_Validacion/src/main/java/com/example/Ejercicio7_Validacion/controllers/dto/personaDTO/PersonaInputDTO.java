@@ -10,16 +10,16 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PersonaInputDTO {
-    int id;
+    int idPersona;
     String usuario;
     String password;
     String name;
     String surname;
-    String company_email;
-    String personal_email;
+    String companyEmail;
+    String personalEmail;
     String city;
     Boolean active;
-    Date created_date;
-    String imagen_url;
-    Date termination_date;
+    Date createdDate;
+    String imagenURL;
+    Date terminationDate;
 }

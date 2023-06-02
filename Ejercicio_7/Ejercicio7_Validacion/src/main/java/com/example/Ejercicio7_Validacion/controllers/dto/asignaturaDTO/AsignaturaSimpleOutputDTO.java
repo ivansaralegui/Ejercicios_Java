@@ -1,6 +1,6 @@
 package com.example.Ejercicio7_Validacion.controllers.dto.asignaturaDTO;
 
-import lombok.AllArgsConstructor;
+import com.example.Ejercicio7_Validacion.classes.Asignatura;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,11 +8,21 @@ import java.util.Date;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class AsignaturaSimpleOutputDTO {
-    int id_asignatura;
-    String asignatura;
+    int idAsignatura;
+    String nombreAsignatura;
     String comments;
-    Date initial_date;
-    Date finish_date;
+    Date initialDate;
+    Date finishDate;
+
+
+    public AsignaturaSimpleOutputDTO(Asignatura asignatura)
+    {
+        idAsignatura=asignatura.getIdAsignatura();
+        nombreAsignatura=asignatura.getAsignaturaNombre();
+        comments=asignatura.getComments();
+        initialDate=asignatura.getInitialDate();
+        finishDate=asignatura.getFinishDate();
+    }
+
 }

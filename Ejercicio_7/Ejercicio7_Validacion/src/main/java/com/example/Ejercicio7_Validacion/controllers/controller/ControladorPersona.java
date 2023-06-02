@@ -22,27 +22,27 @@ public class ControladorPersona {
     }
 
     @GetMapping("{id}")
-    public PersonaOutputDTO getPersonaID(@PathVariable int id) throws Exception{
+    public PersonaOutputDTO getPersonaID(@PathVariable int id){
         return ps.getPersonaById(id);
     }
 
     @GetMapping("nombre/{nombre}")
-    public PersonaOutputDTO getPersonaName(@PathVariable String name) throws Exception{
+    public PersonaOutputDTO getPersonaName(@PathVariable String name){
         return ps.getPersonaByName(name);
     }
 
     @GetMapping
-    public List<PersonaOutputDTO> getPersonas() throws Exception {
+    public List<PersonaOutputDTO> getPersonas() {
         return ps.getAllPersonas();
     }
 
     @DeleteMapping("{id}")
-    public void deletePersona(@PathVariable int id) throws Exception{
+    public void deletePersona(@PathVariable int id){
         ps.deletePersonaById(id);
     }
 
     @PutMapping("{id}")
-    public PersonaOutputDTO updatePersona(@PathVariable int id, @RequestBody PersonaInputDTO persona) throws Exception {
+    public PersonaOutputDTO updatePersona(@PathVariable int id, @RequestBody PersonaInputDTO persona) {
        return ps.updatePersona(id, persona);
     }
 

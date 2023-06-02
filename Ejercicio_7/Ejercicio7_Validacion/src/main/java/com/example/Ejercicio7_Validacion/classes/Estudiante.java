@@ -1,5 +1,6 @@
 package com.example.Ejercicio7_Validacion.classes;
 
+import com.example.Ejercicio7_Validacion.controllers.dto.asignaturaDTO.AsignaturaSimpleOutputDTO;
 import com.example.Ejercicio7_Validacion.controllers.dto.estudainteDTO.EstudianteFullOutputDTO;
 import com.example.Ejercicio7_Validacion.controllers.dto.estudainteDTO.EstudianteInputDTO;
 import com.example.Ejercicio7_Validacion.controllers.dto.estudainteDTO.EstudianteSimpleOutputDTO;
@@ -9,7 +10,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Data
@@ -20,49 +25,28 @@ public class Estudiante {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id_student;
+    int idEstudiante;
     @OneToOne
     @JoinColumn(name = "id_persona", nullable = false, unique = true)
-    Persona id_persona;
-    @NotNull
-    int num_hours_week;
+    Persona persona;
+    int numHoursWeek;
     String comments;
     @ManyToOne
     @JoinColumn(name= "id_profesor")
-    Profesor id_profesor;
+    Profesor profesor;
     @ManyToMany(mappedBy = "estudiantes")
-    Set<Asignatura> asignatura;
-    @NotNull
+    List<Asignatura> asignaturas;
     String branch;
 
     public Estudiante (EstudianteInputDTO estudianteInputDTO, Persona persona, Profesor profesor) {
-        this.id_persona = persona;
-        this.num_hours_week = estudianteInputDTO.getNum_hours_week();
-        this.id_profesor = profesor;
+        this.persona = persona;
+        this.numHoursWeek = estudianteInputDTO.getNumHoursWeek();
+        this.profesor = profesor;
         this.branch = estudianteInputDTO.getBranch();
+        asignaturas=new ArrayList<>();
     }
 
-    public EstudianteSimpleOutputDTO parseEstudianteSimpleOutputDTO(Estudiante estudiante) {
-        EstudianteSimpleOutputDTO eoDTO = new EstudianteSimpleOutputDTO();
-        eoDTO.setId_student(estudiante.getId_student());
-        eoDTO.setId_persona(estudiante.getId_persona());
-        eoDTO.setNum_hours_week(estudiante.getNum_hours_week());
-        eoDTO.setProfesor(estudiante.getId_profesor());
-        eoDTO.setBranch(estudiante.getBranch());
-        return eoDTO;
-    }
 
-    public EstudianteFullOutputDTO parseEstudianteFullOutputDTO(Estudiante estudiante) {
-        EstudianteFullOutputDTO eoDTO = new EstudianteFullOutputDTO();
-        eoDTO.setId_student(estudiante.getId_student());
-        eoDTO.setId_persona(estudiante.getId_persona());
-        eoDTO.setNum_hours_week(estudiante.getNum_hours_week());
-        eoDTO.setProfesor(estudiante.getId_profesor());
-        eoDTO.setBranch(estudiante.getBranch());
-//        for (int i = 0; i < estudiante.getAsignatura().size(); i++) {
-        eoDTO.setAsignatura(estudiante.getAsignatura());
-//        }
-        return eoDTO;
-    }
+
 
 }

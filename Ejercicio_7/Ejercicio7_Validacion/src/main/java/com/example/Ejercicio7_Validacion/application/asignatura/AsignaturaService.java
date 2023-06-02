@@ -10,11 +10,11 @@ import java.util.Set;
 
 @Service
 public interface AsignaturaService {
-    AsignaturaSimpleOutputDTO addAsignatura(AsignaturaInputDTO asignatura) throws Exception;
-    AsignaturaFullOutputDTO getAsignaturaById(int id) throws Exception;
-    void deleteAsignaturaById(int id) throws Exception;
-    List<AsignaturaFullOutputDTO> getAllAsignatura() throws Exception;
-    AsignaturaSimpleOutputDTO updateAsignatura(int id, AsignaturaInputDTO asignatura) throws Exception;
-    AsignaturaFullOutputDTO addEstudiantes(int idAsignatura, int idEstudiante) throws Exception;
-    Set<AsignaturaSimpleOutputDTO> getAsignaturaByEstudianteId(int id) throws Exception;
+    AsignaturaSimpleOutputDTO addAsignatura(AsignaturaInputDTO asignatura);
+    AsignaturaFullOutputDTO getAsignaturaById(int id);
+    void deleteAsignaturaById(int id);
+    List<AsignaturaFullOutputDTO> getAllAsignatura();
+    AsignaturaSimpleOutputDTO updateAsignatura(int id, AsignaturaInputDTO asignatura);
+    AsignaturaFullOutputDTO addEstudiantes(int idAsignatura, int idEstudiante);
+    List<AsignaturaSimpleOutputDTO> getAsignaturaByEstudianteId(int id);
 }

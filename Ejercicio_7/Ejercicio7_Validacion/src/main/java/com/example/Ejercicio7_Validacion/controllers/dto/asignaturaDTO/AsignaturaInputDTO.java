@@ -1,22 +1,23 @@
 package com.example.Ejercicio7_Validacion.controllers.dto.asignaturaDTO;
 
 import com.example.Ejercicio7_Validacion.classes.Estudiante;
-import jakarta.validation.constraints.NotNull;
+import com.example.Ejercicio7_Validacion.controllers.dto.estudainteDTO.EstudianteSimpleOutputDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class AsignaturaInputDTO {
-    int id_asignatura;
-    int id_student;
-    String asignatura;
+    int idAsignatura;
+    int idEstudiante;
+    String asignaturaNombre;
     String comments;
-    Date initial_date;
-    Date finish_date;
-    Set<Estudiante> estudiantes;
+    Date initialDate;
+    Date finishDate;
+    List<EstudianteSimpleOutputDTO> estudiantes;
 }

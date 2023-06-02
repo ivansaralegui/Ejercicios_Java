@@ -9,9 +9,9 @@ import java.util.List;
 @Service
 public interface PersonaService {
     PersonaOutputDTO addPersona(PersonaInputDTO persona) throws Exception;
-    PersonaOutputDTO getPersonaById(int id) throws Exception;
-    void deletePersonaById(int id) throws Exception;
-    List<PersonaOutputDTO> getAllPersonas() throws Exception;
-    PersonaOutputDTO updatePersona(int id,PersonaInputDTO persona) throws Exception;
-    PersonaOutputDTO getPersonaByName(String nombre) throws Exception;
+    PersonaOutputDTO getPersonaById(int id);
+    void deletePersonaById(int id);
+    List<PersonaOutputDTO> getAllPersonas();
+    PersonaOutputDTO updatePersona(int id,PersonaInputDTO persona);
+    PersonaOutputDTO getPersonaByName(String nombre);
 }

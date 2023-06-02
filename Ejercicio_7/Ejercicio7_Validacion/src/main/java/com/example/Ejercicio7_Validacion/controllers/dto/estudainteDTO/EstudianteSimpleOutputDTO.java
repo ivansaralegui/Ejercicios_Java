@@ -1,5 +1,6 @@
 package com.example.Ejercicio7_Validacion.controllers.dto.estudainteDTO;
 
+import com.example.Ejercicio7_Validacion.classes.Estudiante;
 import com.example.Ejercicio7_Validacion.classes.Persona;
 import com.example.Ejercicio7_Validacion.classes.Profesor;
 import lombok.AllArgsConstructor;
@@ -8,12 +9,17 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class EstudianteSimpleOutputDTO {
-    int id_student;
-    int num_hours_week;
+    int idEstudiante;
+    int numHoursWeek;
     String comments;
-    Persona id_persona;
     String branch;
-    Profesor profesor;
+
+    public EstudianteSimpleOutputDTO(Estudiante estudiante)
+    {
+        idEstudiante=estudiante.getIdEstudiante();
+        numHoursWeek=estudiante.getNumHoursWeek();
+        comments=estudiante.getComments();
+        branch=estudiante.getBranch();
+    }
 }

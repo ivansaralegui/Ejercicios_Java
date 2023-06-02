@@ -18,122 +18,98 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class EstudianteServiceImpl implements EstudianteService{
+public class EstudianteServiceImpl implements EstudianteService {
 
     @Autowired
-    private EstudianteRepository repository;
+    private EstudianteRepository estudianteRepository;
 
     @Autowired
-    private PersonaRepository repositoryPersona;
+    private PersonaRepository personaRepository;
 
     @Autowired
-    private ProfesorRepository repositoryProfesor;
+    private ProfesorRepository profesorRepository;
 
     @Autowired
-    private AsignaturaRepository repositoryAsignatura;
+    private AsignaturaRepository asignaturaRepository;
 
     @Override
     @Valid
-    public EstudianteSimpleOutputDTO addEstudiante(EstudianteInputDTO estudiante) throws Exception {
-        Optional<Persona> personaOptional = repositoryPersona.findById(estudiante.getId_persona());
-        Optional<Profesor> profesorOptional = repositoryProfesor.findById(estudiante.getId_profesor());
-        if (personaOptional.isPresent()) {
-            if (profesorOptional.isPresent()) {
-                for (Profesor p: repositoryProfesor.findAll()) {
-                    if (estudiante.getId_persona() == p.getId_persona().getId()) {
-                        throw new Exception("ERROR EN ADDESTUDIANTE: Este ID ya es de un profesor");
-                    }
-                }
-                for (Estudiante e: repository.findAll()) {
-                    if (estudiante.getId_persona() == e.getId_persona().getId()) {
-                        throw new Exception("ERROR EN ADDESTUDIANTE: Este ID ya es de un estudiante");
-                    }
-                }
-                Estudiante e = new Estudiante(estudiante, personaOptional.get(), profesorOptional.get());
-                repository.save(e);
-                return e.parseEstudianteSimpleOutputDTO(e);
-            } else {
-                throw new Exception("Error al crear el Profesor");
-            }
-        } else {
-            throw new Exception("Error al crear el Estudiante");
+    public EstudianteSimpleOutputDTO addEstudiante(EstudianteInputDTO estudianteInputDTO) throws Exception {
+        Persona persona = personaRepository.findById(estudianteInputDTO.getIdPersona()).orElseThrow(() -> new Exception("Not found id in persons"));
+        Profesor profesor = profesorRepository.findById(estudianteInputDTO.getIdProfesor()).orElseThrow(() -> new Exception("Not found id in teacher"));
+
+        if (profesorRepository.findByPersona(persona).isPresent())
+            throw new Exception("ERROR EN ADDESTUDIANTE: Este ID ya es de un profesor");
+
+        if (estudianteRepository.findByPersona(persona).isPresent())
+            throw new Exception("ERROR EN ADDESTUDIANTE: Este ID ya es de un estudiante");
+
+        Estudiante estudiante = new Estudiante(estudianteInputDTO, persona, profesor);
+        if (estudianteInputDTO.getAsignaturas() != null) {
+            estudianteInputDTO.getAsignaturas().forEach(asignaturaId -> {
+                Asignatura asignatura = asignaturaRepository.findById(asignaturaId).orElseThrow(() -> new RuntimeException("Id asignatura not found"));
+                estudiante.getAsignaturas().add(asignatura);
+            });
         }
+
+        estudianteRepository.save(estudiante);
+        return new EstudianteFullOutputDTO(estudiante);
     }
 
     @Override
-    public EstudianteSimpleOutputDTO getEstudianteSimpleById(int id) throws Exception {
-        Optional<Estudiante> estudianteOptional = repository.findById(id);
-        if (estudianteOptional.isPresent()) {
-            Estudiante e = estudianteOptional.get();
-            return e.parseEstudianteSimpleOutputDTO(e);
-        } else {
-            throw new Exception("No se ha encontrado el estudiante con esa ID");
-        }
+    public EstudianteSimpleOutputDTO getEstudianteSimpleById(int id) {
+        Estudiante estudiante = estudianteRepository.findById(id).orElseThrow(() -> new RuntimeException("No se ha encontrado el estudiante con esa ID"));
+
+        return new EstudianteSimpleOutputDTO(estudiante);
     }
 
     @Override
-    public EstudianteFullOutputDTO getEstudianteFullById(int id) throws Exception {
-        Optional<Estudiante> estudianteOptional = repository.findById(id);
-        if (estudianteOptional.isPresent()) {
-            Estudiante e = estudianteOptional.get();
-            return e.parseEstudianteFullOutputDTO(e);
-        } else {
-            throw new Exception("No se ha encontrado el estudiante con esa ID");
-        }
+    public EstudianteFullOutputDTO getEstudianteFullById(int id){
+        Estudiante estudiante = estudianteRepository.findById(id).orElseThrow(() -> new RuntimeException("No se ha encontrado el estudiante con esa ID"));
+
+        return new EstudianteFullOutputDTO(estudiante);
     }
 
     @Override
-    public void deleteEstudianteById(int id) throws Exception {
-        Optional<Estudiante> estudianteOptional = repository.findById(id);
-        if (estudianteOptional.isPresent()) {
-            Estudiante e = estudianteOptional.get();
-            repository.delete(e);
-        } else {
-            throw new Exception("No se ha encontrado el estudiante con esa ID");
-        }
+    public void deleteEstudianteById(int id){
+        Estudiante estudiante = estudianteRepository.findById(id).orElseThrow(() -> new RuntimeException("No se ha encontrado el estudiante con esa ID"));
+
+        estudianteRepository.delete(estudiante);
     }
 
     @Override
-    public List<EstudianteFullOutputDTO> getAllEstudiantes() throws Exception {
-        List<EstudianteFullOutputDTO> lsteoDTO = new ArrayList<EstudianteFullOutputDTO>();
-        for (Estudiante e: repository.findAll()) {
-            lsteoDTO.add((e.parseEstudianteFullOutputDTO(e)));
-        }
+    public List<EstudianteFullOutputDTO> getAllEstudiantes(){
+        List<EstudianteFullOutputDTO> lsteoDTO = estudianteRepository.findAll().stream().map(EstudianteFullOutputDTO::new).toList();
         return lsteoDTO;
     }
 
     @Override
-    public EstudianteSimpleOutputDTO updateEstudiante(int id, EstudianteInputDTO estudiante) throws Exception {
-        Optional<Estudiante> estudianteOptional = repository.findById(id);
-        Optional<Persona> personaOptional = repositoryPersona.findById(estudiante.getId_persona());
-        if (personaOptional.isPresent()) {
-            if (estudianteOptional.isPresent()) {
-                Estudiante e = new Estudiante(estudiante, personaOptional.get(), estudianteOptional.get().getId_profesor());
-                e.setId_student(id);
-                repository.save(e);
-                return e.parseEstudianteSimpleOutputDTO(e);
-            } else {
-                throw new Exception("No se ha encontrado un estudiante con ese ID");
-            }
-        } else {
-            throw new Exception("No se ha encontrado una persona con ese ID");
-        }
+    public EstudianteSimpleOutputDTO updateEstudiante(int id, EstudianteInputDTO estudianteInputDTO){
+        Estudiante estudiante = estudianteRepository.findById(id).orElseThrow(() -> new RuntimeException("ERROR EN UPDATEESTUDIANTE: No se ha encontrado un estudiante con ese ID"));
+
+        estudiante.setIdEstudiante(id);
+        estudiante.setPersona(personaRepository.findById(estudianteInputDTO.getIdPersona()).get());
+        estudiante.setNumHoursWeek(estudianteInputDTO.getNumHoursWeek());
+        estudiante.setComments(estudianteInputDTO.getComments());
+        estudiante.setProfesor(profesorRepository.findById(estudianteInputDTO.getIdProfesor()).get());
+//        estudiante.setAsignaturas(estudianteInputDTO.getAsignaturas());
+        estudiante.setBranch(estudianteInputDTO.getBranch());
+        estudianteRepository.save(estudiante);
+        return new EstudianteSimpleOutputDTO(estudiante);
+
     }
 
     @Override
-    public EstudianteFullOutputDTO addAsignatura(int idEstudiante, int idAsignatura) throws Exception {
-        Optional<Asignatura> asignaturaOptional = repositoryAsignatura.findById(idAsignatura);
-        Optional<Estudiante> estudianteOptional = repository.findById(idEstudiante);
-        if (asignaturaOptional.isPresent() && estudianteOptional.isPresent()) {
-            Estudiante e = estudianteOptional.get();
-            Set<Asignatura> lstAsignatura = new HashSet<Asignatura>();
-            lstAsignatura.add(repositoryAsignatura.findById(idAsignatura).get());
-            e.setAsignatura(lstAsignatura);
-            repository.save(e);
-            return e.parseEstudianteFullOutputDTO(e);
-        } else {
-            throw new Exception("ERROR EN ADDASIGNATURA: No encuentra uno de los IDs");
-        }
+    public EstudianteFullOutputDTO addAsignatura(int idEstudiante, int idAsignatura){
+        Asignatura asignatura = asignaturaRepository.findById(idAsignatura).orElseThrow(() -> new RuntimeException("ERROR EN ADDASIGNATURA: No encuentra una asignatura con ese ID"));
+        Estudiante estudiante = estudianteRepository.findById(idEstudiante).orElseThrow(() -> new RuntimeException("ERROR EN ADDASIGNATURA: No encuentra un estudiante con ese ID"));
+
+        List<Asignatura> lstAsignatura = new ArrayList<>();
+        lstAsignatura.add(asignatura);
+        estudiante.setAsignaturas(lstAsignatura);
+        estudianteRepository.save(estudiante);
+        return new EstudianteFullOutputDTO(estudiante);
+
     }
 
 

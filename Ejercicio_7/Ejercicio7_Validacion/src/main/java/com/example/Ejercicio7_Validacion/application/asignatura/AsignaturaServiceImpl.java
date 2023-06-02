@@ -13,100 +13,78 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class AsignaturaServiceImpl implements AsignaturaService{
+public class AsignaturaServiceImpl implements AsignaturaService {
 
     @Autowired
-    private AsignaturaRepository repository;
+    private AsignaturaRepository asignaturaRepository;
 
     @Autowired
-    EstudianteRepository repositoryEstudiante;
+    EstudianteRepository estudianteRepository;
 
     @Override
-    public AsignaturaSimpleOutputDTO addAsignatura(AsignaturaInputDTO asignatura){
-            Asignatura a = new Asignatura(asignatura);
-            repository.save(a);
-            return a.parseAsignaturaSimpleOutputDTO(a);
-
+    public AsignaturaSimpleOutputDTO addAsignatura(AsignaturaInputDTO asignaturaInputDTO) {
+        Asignatura asignatura = new Asignatura(asignaturaInputDTO);
+        asignaturaRepository.save(asignatura);
+        return asignatura.parseAsignaturaSimpleOutputDTO(asignatura);
     }
 
     @Override
-    public AsignaturaFullOutputDTO getAsignaturaById(int id) throws Exception {
-        Optional<Asignatura> asignaturaOptional = repository.findById(id);
-        if (asignaturaOptional.isPresent()) {
-            Asignatura a = asignaturaOptional.get();
-            return a.parseAsignaturaFullOutputDTO(a);
-        } else {
-            throw new Exception("ERROR EN GETASIGNATURABYID: No se ha encontrado una Asignatura con esa ID");
-        }
+    public AsignaturaFullOutputDTO getAsignaturaById(int id) {
+        Asignatura asignatura = asignaturaRepository.findById(id).orElseThrow(() -> new RuntimeException("ERROR EN GETASIGNATURABYID: No se ha encontrado una Asignatura con esa ID"));
+
+        return asignatura.parseAsignaturaFullOutputDTO(asignatura);
     }
 
     @Override
-    public void deleteAsignaturaById(int id) throws Exception {
-        Optional<Asignatura> asignaturaOptional = repository.findById(id);
-        if (asignaturaOptional.isPresent()) {
-            Asignatura a = asignaturaOptional.get();
-            repository.delete(a);
-        } else {
-            throw new Exception("ERROR EN DELETEASIGNATURABYID: No se ha encontrado una Asignatura con esa ID");
-        }
+    public void deleteAsignaturaById(int id) {
+        Asignatura asignatura = asignaturaRepository.findById(id).orElseThrow(() -> new RuntimeException("ERROR EN DELETEASIGNATURABYID: No se ha encontrado una Asignatura con esa ID"));
+
+        asignaturaRepository.delete(asignatura);
     }
 
     @Override
-    public List<AsignaturaFullOutputDTO> getAllAsignatura() throws Exception {
-        List<AsignaturaFullOutputDTO> lstaoDTO = new ArrayList<AsignaturaFullOutputDTO>();
-        for (Asignatura a: repository.findAll()) {
-            lstaoDTO.add((a.parseAsignaturaFullOutputDTO(a)));
-        }
+    public List<AsignaturaFullOutputDTO> getAllAsignatura() {
+        List<AsignaturaFullOutputDTO> lstaoDTO = new ArrayList<>();
+        asignaturaRepository.findAll().forEach(a -> lstaoDTO.add((a.parseAsignaturaFullOutputDTO(a))));
         return lstaoDTO;
     }
 
     @Override
-    public AsignaturaSimpleOutputDTO updateAsignatura(int id, AsignaturaInputDTO asignatura) throws Exception {
-        Optional<Asignatura> asignaturaOptional = repository.findById(id);
-        Optional<Estudiante> estudianteOptional = repositoryEstudiante.findById(id);
-        if (asignaturaOptional.isPresent()) {
-            if (estudianteOptional.isPresent()) {
-                Asignatura a = new Asignatura(asignatura);
-                a.setId_asignatura(id);
-                repository.save(a);
-                return a.parseAsignaturaSimpleOutputDTO(a);
-            } else {
-                throw new Exception("ERROR EN UPDATEASIGNATURA: No se ha encontrado un estudiante con ese ID");
-            }
-        } else {
-            throw new Exception("ERROR EN UPDATEASIGNATURA: No se ha encontrado una Asignatura con ese ID");
-        }
+    public AsignaturaSimpleOutputDTO updateAsignatura(int id, AsignaturaInputDTO asignaturaInputDTO) {
+        Asignatura asignatura = asignaturaRepository.findById(id).orElseThrow(() -> new RuntimeException("ERROR EN UPDATEASIGNATURA: No se ha encontrado una Asignatura con ese ID"));
+
+        asignatura.setIdAsignatura(id);
+//        asignatura.setEstudiantes(asignaturaInputDTO.getEstudiantes());
+        asignatura.setAsignaturaNombre(asignaturaInputDTO.getAsignaturaNombre());
+        asignatura.setComments(asignaturaInputDTO.getComments());
+        asignatura.setInitialDate(asignaturaInputDTO.getInitialDate());
+        asignatura.setFinishDate(asignaturaInputDTO.getFinishDate());
+        asignaturaRepository.save(asignatura);
+        return asignatura.parseAsignaturaSimpleOutputDTO(asignatura);
+
     }
 
     @Override
-    public AsignaturaFullOutputDTO addEstudiantes(int idAsignatura, int idEstudiante) throws Exception {
-        Optional<Estudiante> estudianteOptional = repositoryEstudiante.findById(idEstudiante);
-        Optional<Asignatura> asignaturaOptional = repository.findById(idAsignatura);
-        if (estudianteOptional.isPresent() && asignaturaOptional.isPresent()) {
-            Asignatura a = asignaturaOptional.get();
-            Set<Estudiante> lstEstudiantes = new HashSet<>();
-            lstEstudiantes.add(estudianteOptional.get());
-            a.setEstudiantes(lstEstudiantes);
-            repository.save(a);
-            return a.parseAsignaturaFullOutputDTO(a);
-        } else {
-            throw new Exception("ERROR EN ADDESTUDIANTES: No encuentra uno de los IDs");
-        }
+    public AsignaturaFullOutputDTO addEstudiantes(int idAsignatura, int idEstudiante) {
+        Estudiante estudiante = estudianteRepository.findById(idEstudiante).orElseThrow(() -> new RuntimeException("ERROR EN ADDESTUDIANTES: No encuentra un estudiante con ese ID"));
+        Asignatura asignatura = asignaturaRepository.findById(idAsignatura).orElseThrow(() -> new RuntimeException("ERROR EN ADDESTUDIANTES: No encuentra una asignatura con ese ID"));
+
+        List<Estudiante> lstEstudiantes = new ArrayList<>();
+        lstEstudiantes.add(estudiante);
+        asignatura.setEstudiantes(lstEstudiantes);
+        asignaturaRepository.save(asignatura);
+        return asignatura.parseAsignaturaFullOutputDTO(asignatura);
     }
 
     @Override
-    public Set<AsignaturaSimpleOutputDTO> getAsignaturaByEstudianteId(int id) throws Exception {
-        Optional<Estudiante> estudianteOptional = repositoryEstudiante.findById(id);
+    public List<AsignaturaSimpleOutputDTO> getAsignaturaByEstudianteId(int id){
+        Estudiante estudiante = estudianteRepository.findById(id).orElseThrow(() -> new RuntimeException("ERROR EN GETASIGNATURABYESTUDIANTEID: No se ha encontrado un Estudiante con esa ID"));
 
-        if (estudianteOptional.isPresent()) {
-            Set<AsignaturaSimpleOutputDTO> lstAsignatura = new HashSet<>();
-            Estudiante estudiante = estudianteOptional.get();
-            for (Asignatura a: estudiante.getAsignatura()) {
-                lstAsignatura.add(a.parseAsignaturaSimpleOutputDTO(a));
-            }
-            return  lstAsignatura;
-        } else {
-            throw new Exception("ERROR EN GETASIGNATURABYESTUDIANTEID: No se ha encontrado un Estudiante con esa ID");
+        List<AsignaturaSimpleOutputDTO> lstAsignaturas = null;
+        for (Asignatura a: estudiante.getAsignaturas()) {
+            lstAsignaturas.add(a.parseAsignaturaSimpleOutputDTO(a));
         }
+
+        return lstAsignaturas;
     }
 }

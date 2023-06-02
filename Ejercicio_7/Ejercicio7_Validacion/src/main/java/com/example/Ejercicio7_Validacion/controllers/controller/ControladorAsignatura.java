@@ -18,37 +18,37 @@ public class ControladorAsignatura {
     private AsignaturaService as;
 
     @PostMapping("addAsignatura")
-    public AsignaturaSimpleOutputDTO addAsignatura(@RequestBody AsignaturaInputDTO aiDTO) throws Exception{
+    public AsignaturaSimpleOutputDTO addAsignatura(@RequestBody AsignaturaInputDTO aiDTO){
         return as.addAsignatura(aiDTO);
     }
 
     @GetMapping("{id}")
-    public AsignaturaFullOutputDTO getAsignaturaID(@PathVariable int id) throws Exception{
+    public AsignaturaFullOutputDTO getAsignaturaID(@PathVariable int id){
         return as.getAsignaturaById(id);
     }
 
     @GetMapping
-    public List<AsignaturaFullOutputDTO> getAsignatura() throws Exception {
+    public List<AsignaturaFullOutputDTO> getAsignaturas(){
         return as.getAllAsignatura();
     }
 
     @DeleteMapping("{id}")
-    public void deleteAsignatura(@PathVariable int id) throws Exception{
+    public void deleteAsignatura(@PathVariable int id){
         as.deleteAsignaturaById(id);
     }
 
     @PutMapping("{id}")
-    public AsignaturaSimpleOutputDTO updateAsignatura(@PathVariable int id, @RequestBody AsignaturaInputDTO asignatura) throws Exception {
+    public AsignaturaSimpleOutputDTO updateAsignatura(@PathVariable int id, @RequestBody AsignaturaInputDTO asignatura){
         return as.updateAsignatura(id, asignatura);
     }
 
     @PutMapping("add/{idAsignatura},{idEstudiante}")
-    public AsignaturaFullOutputDTO addEstudiantes(@PathVariable int idAsignatura, @PathVariable int idEstudiante) throws Exception {
+    public AsignaturaFullOutputDTO addEstudiantes(@PathVariable int idAsignatura, @PathVariable int idEstudiante){
        return as.addEstudiantes(idAsignatura, idEstudiante);
     }
 
     @GetMapping("estudiante/{id}")
-    public Set<AsignaturaSimpleOutputDTO> getAsignaturaByEstudianteId(@PathVariable int id) throws Exception {
+    public List<AsignaturaSimpleOutputDTO> getAsignaturaByEstudianteId(@PathVariable int id){
         return as.getAsignaturaByEstudianteId(id);
     }
 

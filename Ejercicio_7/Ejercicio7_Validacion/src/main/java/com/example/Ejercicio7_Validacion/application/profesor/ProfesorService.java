@@ -9,8 +9,8 @@ import java.util.List;
 @Service
 public interface ProfesorService {
     ProfesorOutputDTO addProfesor(ProfesorInputDTO profesor) throws Exception;
-    ProfesorOutputDTO getProfesorById(int id) throws Exception;
-    void deleteProfesorById(int id) throws Exception;
-    List<ProfesorOutputDTO> getAllProfesores() throws Exception;
-    ProfesorOutputDTO updateProfesor(int id,ProfesorInputDTO profesor) throws Exception;
+    ProfesorOutputDTO getProfesorById(int id);
+    void deleteProfesorById(int id);
+    List<ProfesorOutputDTO> getAllProfesores();
+    ProfesorOutputDTO updateProfesor(int id,ProfesorInputDTO profesor);
 }

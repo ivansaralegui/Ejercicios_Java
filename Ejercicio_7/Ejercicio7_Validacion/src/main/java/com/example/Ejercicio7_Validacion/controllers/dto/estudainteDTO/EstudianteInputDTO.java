@@ -5,17 +5,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Set;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class EstudianteInputDTO {
-    int id_student;
-    int id_persona;
-    int num_hours_week;
+    int idEstudiante;
+    int idPersona;
+    int numHoursWeek;
     String comments;
-    int id_profesor;
+    int idProfesor;
     String branch;
-    Set<Asignatura> asignaturas;
+    List<Integer> asignaturas;
 }

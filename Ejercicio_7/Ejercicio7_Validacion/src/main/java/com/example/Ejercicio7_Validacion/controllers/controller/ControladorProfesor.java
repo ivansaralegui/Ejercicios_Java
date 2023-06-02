@@ -21,22 +21,22 @@ public class ControladorProfesor {
     }
 
     @GetMapping("{id}")
-    public ProfesorOutputDTO getProfesorID(@PathVariable int id) throws Exception{
+    public ProfesorOutputDTO getProfesorID(@PathVariable int id){
         return ps.getProfesorById(id);
     }
 
     @GetMapping
-    public List<ProfesorOutputDTO> getProfesores() throws Exception {
+    public List<ProfesorOutputDTO> getProfesores(){
         return ps.getAllProfesores();
     }
 
     @DeleteMapping("{id}")
-    public void deleteProfesor(@PathVariable int id) throws Exception{
+    public void deleteProfesor(@PathVariable int id){
         ps.deleteProfesorById(id);
     }
 
     @PutMapping("{id}")
-    public ProfesorOutputDTO updateProfesor(@PathVariable int id, @RequestBody ProfesorInputDTO profesor) throws Exception {
+    public ProfesorOutputDTO updateProfesor(@PathVariable int id, @RequestBody ProfesorInputDTO profesor){
         return ps.updateProfesor(id, profesor);
     }
 

@@ -10,10 +10,10 @@ import java.util.List;
 @Service
 public interface EstudianteService {
     EstudianteSimpleOutputDTO addEstudiante(EstudianteInputDTO estudiante) throws Exception;
-    EstudianteSimpleOutputDTO getEstudianteSimpleById(int id) throws Exception;
-    EstudianteFullOutputDTO getEstudianteFullById(int id) throws Exception;
-    void deleteEstudianteById(int id) throws Exception;
-    List<EstudianteFullOutputDTO> getAllEstudiantes() throws Exception;
-    EstudianteSimpleOutputDTO updateEstudiante(int id, EstudianteInputDTO estudiante) throws Exception;
-    EstudianteFullOutputDTO addAsignatura(int idEstudiante, int idAsignatura) throws Exception;
+    EstudianteSimpleOutputDTO getEstudianteSimpleById(int id);
+    EstudianteFullOutputDTO getEstudianteFullById(int id);
+    void deleteEstudianteById(int id);
+    List<EstudianteFullOutputDTO> getAllEstudiantes();
+    EstudianteSimpleOutputDTO updateEstudiante(int id, EstudianteInputDTO estudiante);
+    EstudianteFullOutputDTO addAsignatura(int idEstudiante, int idAsignatura);
 }

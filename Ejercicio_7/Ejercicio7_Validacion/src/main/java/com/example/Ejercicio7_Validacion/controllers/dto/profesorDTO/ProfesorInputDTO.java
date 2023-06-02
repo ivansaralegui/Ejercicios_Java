@@ -5,11 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class ProfesorInputDTO {
-    int id_profesor;
-    int id_persona;
+    int idProfesor;
+    int idPersona;
     String comments;
     String branch;
 }
