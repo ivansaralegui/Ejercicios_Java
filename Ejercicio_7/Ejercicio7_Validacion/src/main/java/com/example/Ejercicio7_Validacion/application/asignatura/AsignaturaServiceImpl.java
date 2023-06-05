@@ -80,7 +80,7 @@ public class AsignaturaServiceImpl implements AsignaturaService {
     public List<AsignaturaSimpleOutputDTO> getAsignaturaByEstudianteId(int id){
         Estudiante estudiante = estudianteRepository.findById(id).orElseThrow(() -> new RuntimeException("ERROR EN GETASIGNATURABYESTUDIANTEID: No se ha encontrado un Estudiante con esa ID"));
 
-        List<AsignaturaSimpleOutputDTO> lstAsignaturas = null;
+        List<AsignaturaSimpleOutputDTO> lstAsignaturas = new ArrayList<>();
         for (Asignatura a: estudiante.getAsignaturas()) {
             lstAsignaturas.add(a.parseAsignaturaSimpleOutputDTO(a));
         }
