@@ -1,10 +1,9 @@
-package com.example.Ejercicio7_Validacion.controllers.controller;
+package com.example.Ejercicio11_Web.controllers.controller;
 
-import com.example.Ejercicio7_Validacion.application.persona.PersonaService;
-import com.example.Ejercicio7_Validacion.application.persona.PersonaServiceImpl;
-import com.example.Ejercicio7_Validacion.controllers.dto.personaDTO.PersonaInputDTO;
-import com.example.Ejercicio7_Validacion.controllers.dto.personaDTO.PersonaOutputDTO;
-import com.example.Ejercicio7_Validacion.controllers.dto.profesorDTO.ProfesorOutputDTO;
+import com.example.Ejercicio11_Web.application.persona.PersonaService;
+import com.example.Ejercicio11_Web.controllers.dto.personaDTO.PersonaInputDTO;
+import com.example.Ejercicio11_Web.controllers.dto.personaDTO.PersonaOutputDTO;
+import com.example.Ejercicio11_Web.controllers.dto.profesorDTO.ProfesorOutputDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -34,7 +33,7 @@ public class ControladorPersona {
         return ps.getPersonaByName(name);
     }
 
-    @GetMapping
+    @GetMapping("getall")
     public List<PersonaOutputDTO> getPersonas() {
         return ps.getAllPersonas();
     }
