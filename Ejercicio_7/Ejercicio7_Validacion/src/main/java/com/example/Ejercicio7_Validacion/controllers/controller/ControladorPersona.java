@@ -1,7 +1,6 @@
 package com.example.Ejercicio7_Validacion.controllers.controller;
 
 import com.example.Ejercicio7_Validacion.application.persona.PersonaService;
-import com.example.Ejercicio7_Validacion.application.persona.PersonaServiceImpl;
 import com.example.Ejercicio7_Validacion.controllers.dto.personaDTO.PersonaInputDTO;
 import com.example.Ejercicio7_Validacion.controllers.dto.personaDTO.PersonaOutputDTO;
 import com.example.Ejercicio7_Validacion.controllers.dto.profesorDTO.ProfesorOutputDTO;
@@ -9,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -53,6 +53,24 @@ public class ControladorPersona {
     public ProfesorOutputDTO getProfesor(@PathVariable int id) {
         RestTemplate rt = new RestTemplate();
         return rt.getForObject("http://localhost:8080/profesor/" + id, ProfesorOutputDTO.class);
+    }
+
+    @GetMapping("customquery")
+    public List<PersonaOutputDTO> findCutsomQueryPersonas(@RequestParam(required = false) String usuario,
+                                                          @RequestParam(required = false) String name,
+                                                          @RequestParam(required = false) String surname,
+                                                          @RequestParam(required = false) String fechaCondition,
+                                                          @RequestParam(required = false) String ordenar,
+                                                          @RequestParam(required = true) int pagina) {
+
+        HashMap<String, Object> data = new HashMap<>();
+
+        if (usuario != null) data.put("usuario", usuario);
+        if (name != null) data.put("name", name);
+        if (surname != null) data.put("surname", surname);
+        if (fechaCondition != null) data.put("fechaCreacion", fechaCondition);
+
+        return ps.getPersonasQuery(data, ordenar, pagina);
     }
 
 }

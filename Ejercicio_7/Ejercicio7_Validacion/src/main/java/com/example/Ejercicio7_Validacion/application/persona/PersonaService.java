@@ -4,6 +4,7 @@ import com.example.Ejercicio7_Validacion.controllers.dto.personaDTO.PersonaInput
 import com.example.Ejercicio7_Validacion.controllers.dto.personaDTO.PersonaOutputDTO;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -14,4 +15,5 @@ public interface PersonaService {
     List<PersonaOutputDTO> getAllPersonas();
     PersonaOutputDTO updatePersona(int id,PersonaInputDTO persona);
     PersonaOutputDTO getPersonaByName(String nombre);
+    List<PersonaOutputDTO> getPersonasQuery(HashMap<String, Object> data, String ordenar, int pagina);
 }

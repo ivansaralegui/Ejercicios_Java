@@ -4,18 +4,25 @@ import com.example.Ejercicio7_Validacion.classes.Persona;
 import com.example.Ejercicio7_Validacion.controllers.dto.personaDTO.PersonaInputDTO;
 import com.example.Ejercicio7_Validacion.controllers.dto.personaDTO.PersonaOutputDTO;
 import com.example.Ejercicio7_Validacion.repository.PersonaRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Component
 public class PersonaServiceImpl implements PersonaService {
 
     @Autowired
     private PersonaRepository personaRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public PersonaOutputDTO addPersona(PersonaInputDTO personaInputDTO) throws Exception {
@@ -49,7 +56,7 @@ public class PersonaServiceImpl implements PersonaService {
             // Crea un Objeto Persona para manejar el repositorio y el return
             Persona p = new Persona(personaInputDTO);
             personaRepository.save(p);
-            return p.parsePersonaOutputDTO(p);
+            return p.parsePersonaOutputDTO();
         } else {
             throw new Exception("Usuario no puede ser nulo");
         }
@@ -59,7 +66,7 @@ public class PersonaServiceImpl implements PersonaService {
     public PersonaOutputDTO getPersonaById(int id) {
         Persona persona = personaRepository.findById(id).orElseThrow(() -> new RuntimeException("ERROR EN GETPERSONABYID: No se ha encontrado la persona con esa ID"));
 
-        return persona.parsePersonaOutputDTO(persona);
+        return persona.parsePersonaOutputDTO();
     }
 
     @Override
@@ -79,7 +86,7 @@ public class PersonaServiceImpl implements PersonaService {
     @Override
     public List<PersonaOutputDTO> getAllPersonas() {
         List<PersonaOutputDTO> lstpoDTO = new ArrayList<>();
-        personaRepository.findAll().forEach(p -> lstpoDTO.add((p.parsePersonaOutputDTO(p))));
+        personaRepository.findAll().forEach(p -> lstpoDTO.add((p.parsePersonaOutputDTO())));
         return lstpoDTO;
     }
 
@@ -100,8 +107,68 @@ public class PersonaServiceImpl implements PersonaService {
         persona.setImagenUrl(personaInputDTO.getImagenURL());
         persona.setTerminationDate(personaInputDTO.getTerminationDate());
         personaRepository.save(persona);
-        return persona.parsePersonaOutputDTO(persona);
+        return persona.parsePersonaOutputDTO();
 
     }
+
+    public List<PersonaOutputDTO> getPersonasQuery(HashMap<String, Object> data, String ordenar, int pagina) {
+
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Persona> query = cb.createQuery(Persona.class);
+        Root<Persona> root = query.from(Persona.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        data.forEach((k, v) -> {
+            switch (k) {
+                case "usuario":
+                    predicates.add(cb.like(root.get(k), "%" + (String) v + "%"));
+                    break;
+                case "name":
+                    predicates.add(cb.like(root.get(k), "%" + (String) v + "%"));
+                    break;
+                case "surname":
+                    predicates.add(cb.like(root.get(k), "%" + (String) v + "%"));
+                    break;
+                case "fechaCondition":
+                    String fecha = (String) data.get("fechaCondition");
+
+                    switch (fecha) {
+                        case ">":
+                            predicates.add(cb.greaterThan(root.get(k), (Date) v));
+                            break;
+                        case "<":
+                            predicates.add(cb.lessThan(root.get(k), (Date) v));
+                            break;
+                        case "=":
+                            predicates.add(cb.equal(root.get(k), (Date) v));
+                            break;
+                    }
+                    break;
+            }
+        });
+        if (ordenar != null) {
+            if (ordenar.equals("user")) {
+                query.select(root).where(predicates.toArray(new Predicate[predicates.size()])).orderBy(cb.desc(root.get("user")));
+            }
+            if (ordenar.equals("name")) {
+                query.select(root).where(predicates.toArray(new Predicate[predicates.size()])).orderBy(cb.desc(root.get("name")));
+            }
+        } else {
+            query.select(root).where(predicates.toArray(new Predicate[predicates.size()]));
+        }
+
+        List<PersonaOutputDTO> listaQuery =  entityManager.createQuery(query).getResultList().stream().map(Persona::parsePersonaOutputDTO).toList();
+
+        int fromIndex = (pagina * 10) - 10;
+        int toIndex = fromIndex + 10;
+        if (listaQuery.size() >= toIndex) {
+            return listaQuery.subList(fromIndex, toIndex);
+        } else {
+            return listaQuery.subList(fromIndex, listaQuery.size());
+        }
+
+    }
+
 }
 

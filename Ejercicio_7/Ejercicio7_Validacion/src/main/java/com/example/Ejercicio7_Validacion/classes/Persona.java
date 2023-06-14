@@ -55,19 +55,19 @@ public class Persona {
        this.terminationDate = personaInputDTO.getTerminationDate();
     }
 
-    public PersonaOutputDTO parsePersonaOutputDTO(Persona persona) {
+    public PersonaOutputDTO parsePersonaOutputDTO() {
         PersonaOutputDTO poDTO = new PersonaOutputDTO();
-        poDTO.setIdPersona(persona.getIdPersona());
-        poDTO.setUsuario(persona.getUsuario());
-        poDTO.setName(persona.getName());
-        poDTO.setSurname(persona.getSurname());
-        poDTO.setCompanyEmail(persona.getCompanyEmail());
-        poDTO.setPersonalEmail(persona.getPersonalEmail());
-        poDTO.setCity(persona.getCity());
-        poDTO.setActive(persona.getActive());
-        poDTO.setCreatedDate(persona.getCreatedDate());
-        poDTO.setImagenURL(persona.getImagenUrl());
-        poDTO.setTerminationDate(persona.getTerminationDate());
+        poDTO.setIdPersona(this.getIdPersona());
+        poDTO.setUsuario(this.getUsuario());
+        poDTO.setName(this.getName());
+        poDTO.setSurname(this.getSurname());
+        poDTO.setCompanyEmail(this.getCompanyEmail());
+        poDTO.setPersonalEmail(this.getPersonalEmail());
+        poDTO.setCity(this.getCity());
+        poDTO.setActive(this.getActive());
+        poDTO.setCreatedDate(this.getCreatedDate());
+        poDTO.setImagenURL(this.getImagenUrl());
+        poDTO.setTerminationDate(this.getTerminationDate());
         return poDTO;
     }
 
