@@ -167,7 +167,6 @@ public class PersonaServiceImpl implements PersonaService {
         } else {
             return listaQuery.subList(fromIndex, listaQuery.size());
         }
-
     }
 
 }
