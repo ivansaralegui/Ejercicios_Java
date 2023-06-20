@@ -20,7 +20,7 @@ public class Persona {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer idPersona;
-    @Size(min=6, max=10, message = "El nombre debe contener entre 6 y 10 caracteres")
+    @Size(min = 6, max = 10, message = "El nombre debe contener entre 6 y 10 caracteres")
     @NotNull
     String usuario;
     @NotNull
@@ -41,18 +41,19 @@ public class Persona {
     String imagenUrl;
     Date terminationDate;
 
-    public Persona (PersonaInputDTO personaInputDTO) {
-       this.usuario = personaInputDTO.getUsuario();
-       this.password = personaInputDTO.getPassword();
-       this.name = personaInputDTO.getName();
-       this.surname = personaInputDTO.getSurname();
-       this.companyEmail = personaInputDTO.getCompanyEmail();
-       this.personalEmail = personaInputDTO.getPersonalEmail();
-       this.city = personaInputDTO.getCity();
-       this.active = personaInputDTO.getActive();
-       this.createdDate = personaInputDTO.getCreatedDate();
-       this.imagenUrl = personaInputDTO.getImagenURL();
-       this.terminationDate = personaInputDTO.getTerminationDate();
+    public Persona(PersonaInputDTO personaInputDTO) {
+        this.setIdPersona(personaInputDTO.getIdPersona());
+        this.usuario = personaInputDTO.getUsuario();
+        this.password = personaInputDTO.getPassword();
+        this.name = personaInputDTO.getName();
+        this.surname = personaInputDTO.getSurname();
+        this.companyEmail = personaInputDTO.getCompanyEmail();
+        this.personalEmail = personaInputDTO.getPersonalEmail();
+        this.city = personaInputDTO.getCity();
+        this.active = personaInputDTO.getActive();
+        this.createdDate = personaInputDTO.getCreatedDate();
+        this.imagenUrl = personaInputDTO.getImagenURL();
+        this.terminationDate = personaInputDTO.getTerminationDate();
     }
 
     public PersonaOutputDTO parsePersonaOutputDTO() {
