@@ -17,9 +17,9 @@ public class EstudianteSimpleOutputDTO {
 
     public EstudianteSimpleOutputDTO(Estudiante estudiante)
     {
-        idEstudiante=estudiante.getIdEstudiante();
-        numHoursWeek=estudiante.getNumHoursWeek();
-        comments=estudiante.getComments();
-        branch=estudiante.getBranch();
+        this.idEstudiante=estudiante.getIdEstudiante();
+        this.numHoursWeek=estudiante.getNumHoursWeek();
+        this.comments=estudiante.getComments();
+        this.branch=estudiante.getBranch();
     }
 }

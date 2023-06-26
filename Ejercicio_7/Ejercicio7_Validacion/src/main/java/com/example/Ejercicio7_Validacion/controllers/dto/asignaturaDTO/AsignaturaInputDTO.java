@@ -5,19 +5,27 @@ import com.example.Ejercicio7_Validacion.controllers.dto.estudainteDTO.Estudiant
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 public class AsignaturaInputDTO {
     int idAsignatura;
-    int idEstudiante;
     String asignaturaNombre;
     String comments;
     Date initialDate;
     Date finishDate;
     List<EstudianteSimpleOutputDTO> estudiantes;
+
+    public AsignaturaInputDTO() {
+        this.asignaturaNombre = "Asignatura";
+        this.comments = "Comentario";
+        this.initialDate = new Date(2023-2-2);
+        this.finishDate = new Date(2023-2-20);
+        this.estudiantes = new ArrayList<>();
+    }
 }

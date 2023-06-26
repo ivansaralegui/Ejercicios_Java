@@ -34,7 +34,7 @@ public class EstudianteServiceImpl implements EstudianteService {
 
     @Override
     @Valid
-    public EstudianteSimpleOutputDTO addEstudiante(EstudianteInputDTO estudianteInputDTO) throws Exception {
+    public EstudianteFullOutputDTO addEstudiante(EstudianteInputDTO estudianteInputDTO) throws Exception {
         Persona persona = personaRepository.findById(estudianteInputDTO.getIdPersona()).orElseThrow(() -> new Exception("Not found id in persons"));
         Profesor profesor = profesorRepository.findById(estudianteInputDTO.getIdProfesor()).orElseThrow(() -> new Exception("Not found id in teacher"));
 

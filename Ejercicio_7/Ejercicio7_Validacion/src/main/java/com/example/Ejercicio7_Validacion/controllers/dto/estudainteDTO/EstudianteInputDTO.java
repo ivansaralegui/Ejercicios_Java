@@ -5,11 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 @Data
-@NoArgsConstructor
 public class EstudianteInputDTO {
     int idEstudiante;
     int idPersona;
@@ -18,4 +18,15 @@ public class EstudianteInputDTO {
     int idProfesor;
     String branch;
     List<Integer> asignaturas;
+
+
+    public EstudianteInputDTO(int idPersona, int numHoursWeek, String comments,
+                              int idProfesor, String branch) {
+        this.idPersona = idPersona;
+        this.numHoursWeek = numHoursWeek;
+        this.comments = comments;
+        this.idProfesor = idProfesor;
+        this.branch = branch;
+    }
+
 }

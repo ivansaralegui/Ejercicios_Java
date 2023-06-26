@@ -55,8 +55,8 @@ public class Asignatura {
         aoDTO.setIdAsignatura(asignatura.getIdAsignatura());
         aoDTO.setNombreAsignatura(asignatura.getAsignaturaNombre());
         aoDTO.setComments(asignatura.getComments());
-        aoDTO.setEstudiantes( asignatura.getEstudiantes().
-                stream().map(EstudianteSimpleOutputDTO::new).collect(Collectors.toList()));
+//        aoDTO.setEstudiantes( asignatura.getEstudiantes().
+//                stream().map(EstudianteSimpleOutputDTO::new).collect(Collectors.toList()));
         aoDTO.setInitialDate(asignatura.getInitialDate());
         aoDTO.setFinishDate(asignatura.getFinishDate());
         return aoDTO;

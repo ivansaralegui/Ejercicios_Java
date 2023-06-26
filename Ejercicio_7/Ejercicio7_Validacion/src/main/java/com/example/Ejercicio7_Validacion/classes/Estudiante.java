@@ -39,6 +39,7 @@ public class Estudiante {
     String branch;
 
     public Estudiante (EstudianteInputDTO estudianteInputDTO, Persona persona, Profesor profesor) {
+        this.idEstudiante = estudianteInputDTO.getIdEstudiante();
         this.persona = persona;
         this.numHoursWeek = estudianteInputDTO.getNumHoursWeek();
         this.profesor = profesor;

@@ -10,7 +10,7 @@ import java.util.Set;
 
 @Service
 public interface AsignaturaService {
-    AsignaturaSimpleOutputDTO addAsignatura(AsignaturaInputDTO asignatura);
+    AsignaturaFullOutputDTO addAsignatura(AsignaturaInputDTO asignatura);
     AsignaturaFullOutputDTO getAsignaturaById(int id);
     void deleteAsignaturaById(int id);
     List<AsignaturaFullOutputDTO> getAllAsignatura();

@@ -33,6 +33,7 @@ public class Profesor {
     String branch;
 
     public Profesor (ProfesorInputDTO profesorInputDTO, Persona persona) {
+        this.setIdProfesor(profesorInputDTO.getIdProfesor());
         this.persona = persona;
         this.comments = profesorInputDTO.getComments();
         this.branch = profesorInputDTO.getBranch();

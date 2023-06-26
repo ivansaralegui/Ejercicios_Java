@@ -26,7 +26,7 @@ public class EstudianteFullOutputDTO extends EstudianteSimpleOutputDTO
         super(estudiante);
         persona= new PersonaOutputDTO(estudiante.getPersona());
         profesor=new ProfesorOutputDTO(estudiante.getProfesor());
-        asignaturas=estudiante.getAsignaturas().stream()
-                .map(AsignaturaSimpleOutputDTO::new).collect(Collectors.toList());
+//        asignaturas=estudiante.getAsignaturas().stream()
+//                .map(AsignaturaSimpleOutputDTO::new).collect(Collectors.toList());
     }
 }

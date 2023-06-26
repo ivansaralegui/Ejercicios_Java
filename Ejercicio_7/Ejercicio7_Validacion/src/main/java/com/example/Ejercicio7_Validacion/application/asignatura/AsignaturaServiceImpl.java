@@ -22,10 +22,10 @@ public class AsignaturaServiceImpl implements AsignaturaService {
     EstudianteRepository estudianteRepository;
 
     @Override
-    public AsignaturaSimpleOutputDTO addAsignatura(AsignaturaInputDTO asignaturaInputDTO) {
+    public AsignaturaFullOutputDTO addAsignatura(AsignaturaInputDTO asignaturaInputDTO) {
         Asignatura asignatura = new Asignatura(asignaturaInputDTO);
         asignaturaRepository.save(asignatura);
-        return asignatura.parseAsignaturaSimpleOutputDTO(asignatura);
+        return asignatura.parseAsignaturaFullOutputDTO(asignatura);
     }
 
     @Override

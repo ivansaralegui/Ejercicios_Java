@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 public interface EstudianteService {
-    EstudianteSimpleOutputDTO addEstudiante(EstudianteInputDTO estudiante) throws Exception;
+    EstudianteFullOutputDTO addEstudiante(EstudianteInputDTO estudiante) throws Exception;
     EstudianteSimpleOutputDTO getEstudianteSimpleById(int id);
     EstudianteFullOutputDTO getEstudianteFullById(int id);
     void deleteEstudianteById(int id);
